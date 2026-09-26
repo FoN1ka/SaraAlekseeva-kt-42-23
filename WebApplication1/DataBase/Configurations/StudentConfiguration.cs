@@ -13,7 +13,7 @@ namespace WebApplication1.DataBase.Configurations
             //Primary key
             builder
                 .HasKey(p => p.StudentId)
-                .HasName($"pk{TableName}_student_id");
+                .HasName($"pk_{TableName}_student_id");
 
             //For int primary key set autogeneration (k ever new note will add +1)
             builder.Property(p => p.StudentId)
@@ -47,6 +47,9 @@ namespace WebApplication1.DataBase.Configurations
                 .HasForeignKey(p => p.GroupId)
                 .HasConstraintName("fk_f_group_id")
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Индекс по внешнему ключу
+            builder.HasIndex(p => p.GroupId, $"idk_{TableName}_fk_group_id");
 
             builder.Navigation(p => p.Group)
                 .AutoInclude();

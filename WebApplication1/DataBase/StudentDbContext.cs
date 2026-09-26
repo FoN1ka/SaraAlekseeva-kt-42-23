@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApplication1.DataBase.Configurations;
-using WebApplication1.DataBase.Configuratios;
 using WebApplication1.Models;
 
 namespace WebApplication1.DataBase
@@ -20,6 +19,9 @@ namespace WebApplication1.DataBase
             //Добавляем конфигурации к таблицам
             modelBuilder.ApplyConfiguration(new StudentConfiguration());
             modelBuilder.ApplyConfiguration(new GroupConfiguration());
+            modelBuilder.ApplyConfiguration(new GradeConfiguration());
+            modelBuilder.ApplyConfiguration(new DisciplineConfiguration());
+            modelBuilder.ApplyConfiguration(new SpecialnostConfiguration());
         }
     }
 }
