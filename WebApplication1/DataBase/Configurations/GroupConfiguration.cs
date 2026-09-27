@@ -37,7 +37,7 @@ namespace WebApplication1.DataBase.Configurations
 
             // Внешний ключ
             builder.Property(p => p.SpecialnostId)
-                .HasColumnName("specialnost_id")
+                .HasColumnName("f_specialnost_id")
                 .HasComment("Идентификатор специальности");
 
             // Связь с специальностью
@@ -51,8 +51,8 @@ namespace WebApplication1.DataBase.Configurations
             builder.HasIndex(p => p.SpecialnostId, $"idk_{TableName}_fk_specialnost_id");
 
             // Автоподгрузка навигации
-            builder.Navigation(p => p.Specialnost)
-                .AutoInclude();
+            //builder.Navigation(p => p.Specialnost)
+            //    .AutoInclude();
         }
     }
 }

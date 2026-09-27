@@ -27,17 +27,19 @@ namespace WebApplication1.DataBase.Configurations
             //HasComment will add comment, which seeing in SUBD
             builder.Property(p => p.FirstName)
                 .IsRequired()
-                .HasColumnName("c_student_firstName")
+                .HasColumnName("c_student_firstname")
                 .HasColumnType(ColumnType.String).HasMaxLength(100)
                 .HasComment("Имя студента");
 
             builder.Property(p => p.LastName)
-                .IsRequired()
-                .HasColumnName("c_student_lastName");
+               .IsRequired()
+               .HasColumnName("c_student_lastname")
+               .HasColumnType(ColumnType.String).HasMaxLength(100)
+               .HasComment("Фамилия студента");
 
             //Расписсываем как будут называть колонки в бд, а также их обязательность и тд
             builder.Property(p => p.GroupId)
-                .HasColumnName("group_id")
+                .HasColumnName("f_group_id")
                 .HasComment("Идентификатор группы");
 
             //HasComment will add comment, which seeing in SUBD
@@ -51,8 +53,8 @@ namespace WebApplication1.DataBase.Configurations
             // Индекс по внешнему ключу
             builder.HasIndex(p => p.GroupId, $"idk_{TableName}_fk_group_id");
 
-            builder.Navigation(p => p.Group)
-                .AutoInclude();
+            //builder.Navigation(p => p.Group)
+            //    .AutoInclude();
 
 
         }

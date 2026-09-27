@@ -53,7 +53,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Discipline");
+                    b.ToTable("cd_discipline", (string)null);
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Grade", b =>
@@ -68,7 +68,7 @@ namespace WebApplication1.Migrations
 
                     b.Property<int>("DisciplineId")
                         .HasColumnType("integer")
-                        .HasColumnName("discipline_id")
+                        .HasColumnName("f_discipline_id")
                         .HasComment("Идентификатор дисциплины");
 
                     b.Property<int?>("DisciplineId1")
@@ -76,7 +76,7 @@ namespace WebApplication1.Migrations
 
                     b.Property<int>("StudentId")
                         .HasColumnType("integer")
-                        .HasColumnName("student_id")
+                        .HasColumnName("f_student_id")
                         .HasComment("Идентификатор студента");
 
                     b.Property<int>("Value")
@@ -119,7 +119,7 @@ namespace WebApplication1.Migrations
 
                     b.Property<int>("SpecialnostId")
                         .HasColumnType("integer")
-                        .HasColumnName("specialnost_id")
+                        .HasColumnName("f_specialnost_id")
                         .HasComment("Идентификатор специальности");
 
                     b.HasKey("GroupId")
@@ -172,12 +172,12 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar")
-                        .HasColumnName("c_student_firstName")
+                        .HasColumnName("c_student_firstname")
                         .HasComment("Имя студента");
 
                     b.Property<int>("GroupId")
                         .HasColumnType("integer")
-                        .HasColumnName("group_id")
+                        .HasColumnName("f_group_id")
                         .HasComment("Идентификатор группы");
 
                     b.Property<int?>("GroupId1")
@@ -185,8 +185,10 @@ namespace WebApplication1.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("c_student_lastName");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar")
+                        .HasColumnName("c_student_lastname")
+                        .HasComment("Фамилия студента");
 
                     b.HasKey("StudentId")
                         .HasName("pk_cd_student_student_id");

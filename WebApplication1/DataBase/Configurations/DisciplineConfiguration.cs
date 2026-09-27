@@ -25,6 +25,8 @@ namespace WebApplication1.DataBase.Configurations
                 .HasColumnName("discipline_id")
                 .HasComment("Идентификатор записи Дисциплины");
 
+            builder.ToTable(TableName);
+
             //HasComment will add comment, which seeing in SUBD
             builder.Property(p => p.Name)
                 .IsRequired()

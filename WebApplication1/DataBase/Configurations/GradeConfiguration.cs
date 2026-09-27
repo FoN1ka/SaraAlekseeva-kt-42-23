@@ -31,11 +31,11 @@ namespace WebApplication1.DataBase.Configurations
 
             //Расписсываем как будут называть колонки в бд, а также их обязательность и тд
             builder.Property(p => p.StudentId)
-                .HasColumnName("student_id")
+                .HasColumnName("f_student_id")
                 .HasComment("Идентификатор студента");
 
             builder.Property(p => p.DisciplineId)
-                .HasColumnName("discipline_id")
+                .HasColumnName("f_discipline_id")
                 .HasComment("Идентификатор дисциплины");
 
             //HasComment will add comment, which seeing in SUBD
