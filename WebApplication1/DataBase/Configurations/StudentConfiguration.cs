@@ -53,8 +53,8 @@ namespace WebApplication1.DataBase.Configurations
             // Индекс по внешнему ключу
             builder.HasIndex(p => p.GroupId, $"idk_{TableName}_fk_group_id");
 
-            //builder.Navigation(p => p.Group)
-            //    .AutoInclude();
+            builder.Navigation(p => p.Group)
+                .AutoInclude();
 
 
         }

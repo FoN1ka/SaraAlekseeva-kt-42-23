@@ -51,8 +51,8 @@ namespace WebApplication1.DataBase.Configurations
             builder.HasIndex(p => p.SpecialnostId, $"idk_{TableName}_fk_specialnost_id");
 
             // Автоподгрузка навигации
-            //builder.Navigation(p => p.Specialnost)
-            //    .AutoInclude();
+            builder.Navigation(p => p.Specialnost)
+                .AutoInclude();
         }
     }
 }

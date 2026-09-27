@@ -10,6 +10,6 @@ namespace WebApplication1.Models
         public int GroupId { get; set; }
         public Group Group { get; set; }
         [JsonIgnore]
-        public ICollection<Discipline> Grades { get; set; } = new List<Discipline>();
+        public ICollection<Grade> Grades { get; set; } = new List<Grade>();
     }
 }
