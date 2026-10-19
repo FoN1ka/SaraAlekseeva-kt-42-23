@@ -16,7 +16,6 @@ namespace WebApplication1.DataBase.Configurations
                 .HasKey(p => p.GradeId)
                 .HasName($"pk_{TableName}_grade_id");
 
-            //For int primary key set autogeneration (k ever new note will add +1)
             builder.Property(p => p.GradeId)
                 .ValueGeneratedOnAdd();
 
@@ -29,7 +28,6 @@ namespace WebApplication1.DataBase.Configurations
                 .IsRequired()
                 .HasColumnName("c_grade_value");
 
-            //Расписсываем как будут называть колонки в бд, а также их обязательность и тд
             builder.Property(p => p.StudentId)
                 .HasColumnName("f_student_id")
                 .HasComment("Идентификатор студента");
@@ -38,20 +36,32 @@ namespace WebApplication1.DataBase.Configurations
                 .HasColumnName("f_discipline_id")
                 .HasComment("Идентификатор дисциплины");
 
-            //HasComment will add comment, which seeing in SUBD
-            builder.ToTable(TableName);
-
+            //HasComment 
             builder.HasOne(p => p.Student)
-                .WithMany()
+                .WithMany(s => s.Grades)
                 .HasForeignKey(p => p.StudentId)
                 .HasConstraintName("fk_f_student_id")
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(p => p.Discipline)
-                .WithMany()
+                .WithMany(d => d.Grades)
                 .HasForeignKey(p => p.DisciplineId)
                 .HasConstraintName("fk_f_discipline_id")
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Индекс по внешнему ключу
+            builder.ToTable(TableName).HasIndex(p => p.StudentId, $"idk_{TableName}_fk_student_id");
+
+            // Автоподгрузка навигации
+            builder.Navigation(p => p.Student)
+                .AutoInclude();
+
+            // Индекс по внешнему ключу
+            builder.ToTable(TableName).HasIndex(p => p.DisciplineId, $"idk_{TableName}_fk_discipline_id");
+
+            // Автоподгрузка навигации
+            builder.Navigation(p => p.Discipline)
+                .AutoInclude();
         }
     }
 }

@@ -11,8 +11,11 @@ namespace WebApplication1.DataBase
 
         }
 
-        DbSet<Student> Students { get; set; }
-        DbSet<Group> Groups { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Grade> Grades { get; set; }
+        public DbSet<Discipline> Disciplines { get; set; }
+        public DbSet<Specialnost> Specialnosts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

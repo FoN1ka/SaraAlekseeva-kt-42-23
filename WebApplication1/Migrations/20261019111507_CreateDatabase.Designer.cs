@@ -11,8 +11,8 @@ using WebApplication1.DataBase;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(StudentDbContext))]
-    [Migration("20260927111131_EditStudentTable")]
-    partial class EditStudentTable
+    [Migration("20261019111507_CreateDatabase")]
+    partial class CreateDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,7 @@ namespace WebApplication1.Migrations
                     b.HasKey("DisciplineId")
                         .HasName("pk_cd_discipline_discipline_id");
 
-                    b.ToTable("cd_discipline", (string)null);
+                    b.ToTable("Disciplines");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Grade", b =>
@@ -69,16 +69,10 @@ namespace WebApplication1.Migrations
                         .HasColumnName("f_discipline_id")
                         .HasComment("Идентификатор дисциплины");
 
-                    b.Property<int?>("DisciplineId1")
-                        .HasColumnType("integer");
-
                     b.Property<int>("StudentId")
                         .HasColumnType("integer")
                         .HasColumnName("f_student_id")
                         .HasComment("Идентификатор студента");
-
-                    b.Property<int?>("StudentId1")
-                        .HasColumnType("integer");
 
                     b.Property<int>("Value")
                         .HasColumnType("integer")
@@ -87,13 +81,9 @@ namespace WebApplication1.Migrations
                     b.HasKey("GradeId")
                         .HasName("pk_cd_grade_grade_id");
 
-                    b.HasIndex("DisciplineId");
+                    b.HasIndex(new[] { "DisciplineId" }, "idk_cd_grade_fk_discipline_id");
 
-                    b.HasIndex("DisciplineId1");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("StudentId1");
+                    b.HasIndex(new[] { "StudentId" }, "idk_cd_grade_fk_student_id");
 
                     b.ToTable("cd_grade", (string)null);
                 });
@@ -158,7 +148,7 @@ namespace WebApplication1.Migrations
                     b.HasKey("SpecialnostId")
                         .HasName("pk_cd_specialnost_specialnost_id");
 
-                    b.ToTable("cd_specialnost", (string)null);
+                    b.ToTable("Specialnosts");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Student", b =>
@@ -183,9 +173,6 @@ namespace WebApplication1.Migrations
                         .HasColumnName("f_group_id")
                         .HasComment("Идентификатор группы");
 
-                    b.Property<int?>("GroupId1")
-                        .HasColumnType("integer");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -196,8 +183,6 @@ namespace WebApplication1.Migrations
                     b.HasKey("StudentId")
                         .HasName("pk_cd_student_student_id");
 
-                    b.HasIndex("GroupId1");
-
                     b.HasIndex(new[] { "GroupId" }, "idk_cd_student_fk_group_id");
 
                     b.ToTable("cd_student", (string)null);
@@ -206,26 +191,18 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.Models.Grade", b =>
                 {
                     b.HasOne("WebApplication1.Models.Discipline", "Discipline")
-                        .WithMany()
+                        .WithMany("Grades")
                         .HasForeignKey("DisciplineId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_f_discipline_id");
 
-                    b.HasOne("WebApplication1.Models.Discipline", null)
-                        .WithMany("Grades")
-                        .HasForeignKey("DisciplineId1");
-
                     b.HasOne("WebApplication1.Models.Student", "Student")
-                        .WithMany()
+                        .WithMany("Grades")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_f_student_id");
-
-                    b.HasOne("WebApplication1.Models.Student", null)
-                        .WithMany("Grades")
-                        .HasForeignKey("StudentId1");
 
                     b.Navigation("Discipline");
 
@@ -239,7 +216,7 @@ namespace WebApplication1.Migrations
                         .HasForeignKey("SpecialnostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_cd_group_specialnost_id");
+                        .HasConstraintName("fk_f_specialnost_id");
 
                     b.Navigation("Specialnost");
                 });
@@ -247,15 +224,11 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.Models.Student", b =>
                 {
                     b.HasOne("WebApplication1.Models.Group", "Group")
-                        .WithMany()
+                        .WithMany("Students")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_f_group_id");
-
-                    b.HasOne("WebApplication1.Models.Group", null)
-                        .WithMany("Students")
-                        .HasForeignKey("GroupId1");
 
                     b.Navigation("Group");
                 });

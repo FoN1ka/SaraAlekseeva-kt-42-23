@@ -12,7 +12,21 @@ namespace WebApplication1.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "cd_specialnost",
+                name: "Disciplines",
+                columns: table => new
+                {
+                    discipline_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор записи Дисциплины")
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    c_discipline_name = table.Column<string>(type: "varchar", maxLength: 100, nullable: false, comment: "название дисциплины"),
+                    c_discipline_is_deleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false, comment: "Признак удаления дисциплины")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_cd_discipline_discipline_id", x => x.discipline_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Specialnosts",
                 columns: table => new
                 {
                     specialnost_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор записи специальности")
@@ -39,9 +53,9 @@ namespace WebApplication1.Migrations
                 {
                     table.PrimaryKey("pk_cd_group_group_id", x => x.group_id);
                     table.ForeignKey(
-                        name: "fk_cd_group_specialnost_id",
+                        name: "fk_f_specialnost_id",
                         column: x => x.f_specialnost_id,
-                        principalTable: "cd_specialnost",
+                        principalTable: "Specialnosts",
                         principalColumn: "specialnost_id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -54,43 +68,17 @@ namespace WebApplication1.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     c_student_firstname = table.Column<string>(type: "varchar", maxLength: 100, nullable: false, comment: "Имя студента"),
                     c_student_lastname = table.Column<string>(type: "varchar", maxLength: 100, nullable: false, comment: "Фамилия студента"),
-                    f_group_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор группы"),
-                    GroupId1 = table.Column<int>(type: "integer", nullable: true)
+                    f_group_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор группы")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_cd_student_student_id", x => x.student_id);
-                    table.ForeignKey(
-                        name: "FK_cd_student_cd_group_GroupId1",
-                        column: x => x.GroupId1,
-                        principalTable: "cd_group",
-                        principalColumn: "group_id");
                     table.ForeignKey(
                         name: "fk_f_group_id",
                         column: x => x.f_group_id,
                         principalTable: "cd_group",
                         principalColumn: "group_id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "cd_discipline",
-                columns: table => new
-                {
-                    discipline_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор записи Дисциплины")
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    c_discipline_name = table.Column<string>(type: "varchar", maxLength: 100, nullable: false, comment: "название дисциплины"),
-                    c_discipline_is_deleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false, comment: "Признак удаления дисциплины"),
-                    StudentId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_cd_discipline_discipline_id", x => x.discipline_id);
-                    table.ForeignKey(
-                        name: "FK_cd_discipline_cd_student_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "cd_student",
-                        principalColumn: "student_id");
                 });
 
             migrationBuilder.CreateTable(
@@ -101,21 +89,15 @@ namespace WebApplication1.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     c_grade_value = table.Column<int>(type: "integer", nullable: false),
                     f_student_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор студента"),
-                    f_discipline_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор дисциплины"),
-                    DisciplineId1 = table.Column<int>(type: "integer", nullable: true)
+                    f_discipline_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор дисциплины")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_cd_grade_grade_id", x => x.grade_id);
                     table.ForeignKey(
-                        name: "FK_cd_grade_cd_discipline_DisciplineId1",
-                        column: x => x.DisciplineId1,
-                        principalTable: "cd_discipline",
-                        principalColumn: "discipline_id");
-                    table.ForeignKey(
                         name: "fk_f_discipline_id",
                         column: x => x.f_discipline_id,
-                        principalTable: "cd_discipline",
+                        principalTable: "Disciplines",
                         principalColumn: "discipline_id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -127,22 +109,12 @@ namespace WebApplication1.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_cd_discipline_StudentId",
-                table: "cd_discipline",
-                column: "StudentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_cd_grade_DisciplineId1",
-                table: "cd_grade",
-                column: "DisciplineId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_cd_grade_f_discipline_id",
+                name: "idk_cd_grade_fk_discipline_id",
                 table: "cd_grade",
                 column: "f_discipline_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_cd_grade_f_student_id",
+                name: "idk_cd_grade_fk_student_id",
                 table: "cd_grade",
                 column: "f_student_id");
 
@@ -155,11 +127,6 @@ namespace WebApplication1.Migrations
                 name: "idk_cd_student_fk_group_id",
                 table: "cd_student",
                 column: "f_group_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_cd_student_GroupId1",
-                table: "cd_student",
-                column: "GroupId1");
         }
 
         /// <inheritdoc />
@@ -169,7 +136,7 @@ namespace WebApplication1.Migrations
                 name: "cd_grade");
 
             migrationBuilder.DropTable(
-                name: "cd_discipline");
+                name: "Disciplines");
 
             migrationBuilder.DropTable(
                 name: "cd_student");
@@ -178,7 +145,7 @@ namespace WebApplication1.Migrations
                 name: "cd_group");
 
             migrationBuilder.DropTable(
-                name: "cd_specialnost");
+                name: "Specialnosts");
         }
     }
 }

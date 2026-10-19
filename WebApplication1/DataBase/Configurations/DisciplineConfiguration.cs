@@ -16,7 +16,6 @@ namespace WebApplication1.DataBase.Configurations
                 .HasKey(p => p.DisciplineId)
                 .HasName($"pk_{TableName}_discipline_id");
 
-            //For int primary key set autogeneration (k ever new note will add +1)
             builder.Property(p => p.DisciplineId)
                 .ValueGeneratedOnAdd();
 
@@ -25,14 +24,14 @@ namespace WebApplication1.DataBase.Configurations
                 .HasColumnName("discipline_id")
                 .HasComment("Идентификатор записи Дисциплины");
 
-            builder.ToTable(TableName);
-
-            //HasComment will add comment, which seeing in SUBD
+            //HasComment
             builder.Property(p => p.Name)
                 .IsRequired()
                 .HasColumnName("c_discipline_name")
                 .HasColumnType(ColumnType.String).HasMaxLength(100)
                 .HasComment("название дисциплины");
+
+            builder.ToTable(TableName);
 
             // Флаг удаления
             builder.Property(p => p.IsDeleted)

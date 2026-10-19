@@ -11,11 +11,9 @@ namespace WebApplication1.DataBase.Configurations
 
         public void Configure(EntityTypeBuilder<Specialnost> builder)
         {
-            // Имя таблицы
-            builder.ToTable(TableName);
-
             // Первичный ключ
-            builder.HasKey(p => p.SpecialnostId)
+            builder
+                .HasKey(p => p.SpecialnostId)
                 .HasName($"pk_{TableName}_specialnost_id");
 
             builder.Property(p => p.SpecialnostId)
@@ -36,6 +34,8 @@ namespace WebApplication1.DataBase.Configurations
                 .IsRequired()
                 .HasColumnName("c_specialnost_code")
                 .HasComment("Код специальности");
+
+            builder.ToTable(TableName);
         }
     }
 }

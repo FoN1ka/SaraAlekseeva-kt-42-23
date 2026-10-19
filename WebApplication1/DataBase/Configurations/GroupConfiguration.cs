@@ -10,8 +10,6 @@ namespace WebApplication1.DataBase.Configurations
 
         public void Configure(EntityTypeBuilder<Group> builder)
         {
-            builder.ToTable(TableName);
-
             // Первичный ключ
             builder.HasKey(p => p.GroupId)
                 .HasName($"pk_{TableName}_group_id");
@@ -44,11 +42,11 @@ namespace WebApplication1.DataBase.Configurations
             builder.HasOne(p => p.Specialnost)
                 .WithMany(s => s.Groups)
                 .HasForeignKey(p => p.SpecialnostId)
-                .HasConstraintName($"fk_{TableName}_specialnost_id")
+                .HasConstraintName($"fk_f_specialnost_id")
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Индекс по внешнему ключу
-            builder.HasIndex(p => p.SpecialnostId, $"idk_{TableName}_fk_specialnost_id");
+            builder.ToTable(TableName).HasIndex(p => p.SpecialnostId, $"idk_{TableName}_fk_specialnost_id");
 
             // Автоподгрузка навигации
             builder.Navigation(p => p.Specialnost)

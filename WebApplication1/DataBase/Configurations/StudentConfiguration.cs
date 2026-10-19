@@ -15,7 +15,7 @@ namespace WebApplication1.DataBase.Configurations
                 .HasKey(p => p.StudentId)
                 .HasName($"pk_{TableName}_student_id");
 
-            //For int primary key set autogeneration (k ever new note will add +1)
+            //Автогенерация для первичного ключа
             builder.Property(p => p.StudentId)
                 .ValueGeneratedOnAdd();
 
@@ -24,7 +24,7 @@ namespace WebApplication1.DataBase.Configurations
                 .HasColumnName("student_id")
                 .HasComment("Идентификатор записи студента");
 
-            //HasComment will add comment, which seeing in SUBD
+            //HasComment добавит комментарий
             builder.Property(p => p.FirstName)
                 .IsRequired()
                 .HasColumnName("c_student_firstname")
@@ -42,21 +42,18 @@ namespace WebApplication1.DataBase.Configurations
                 .HasColumnName("f_group_id")
                 .HasComment("Идентификатор группы");
 
-            //HasComment will add comment, which seeing in SUBD
             builder.ToTable(TableName)
                 .HasOne(p => p.Group)
-                .WithMany()
+                .WithMany(g => g.Students)
                 .HasForeignKey(p => p.GroupId)
                 .HasConstraintName("fk_f_group_id")
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Индекс по внешнему ключу
-            builder.HasIndex(p => p.GroupId, $"idk_{TableName}_fk_group_id");
+            builder.ToTable(TableName).HasIndex(p => p.GroupId, $"idk_{TableName}_fk_group_id");
 
             builder.Navigation(p => p.Group)
                 .AutoInclude();
-
-
         }
     }
 }
