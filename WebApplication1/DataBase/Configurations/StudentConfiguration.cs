@@ -52,6 +52,13 @@ namespace WebApplication1.DataBase.Configurations
             // Индекс по внешнему ключу
             builder.ToTable(TableName).HasIndex(p => p.GroupId, $"idk_{TableName}_fk_group_id");
 
+            // Флаг удаления
+            builder.Property(p => p.IsDeleted)
+                .IsRequired()
+                .HasColumnName("c_student_is_deleted")
+                .HasDefaultValue(false)
+                .HasComment("Признак удаления Студента");
+
             builder.Navigation(p => p.Group)
                 .AutoInclude();
         }

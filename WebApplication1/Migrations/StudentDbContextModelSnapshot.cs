@@ -170,6 +170,13 @@ namespace WebApplication1.Migrations
                         .HasColumnName("f_group_id")
                         .HasComment("Идентификатор группы");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("c_student_is_deleted")
+                        .HasComment("Признак удаления Студента");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
