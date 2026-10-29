@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using WebApplication1.DataBase;
 using WebApplication1.Filters.StudentsFilters;
 using WebApplication1.Models;
@@ -7,6 +9,9 @@ namespace WebApplication1.Interfaces.StudentsInterfaces
 {
     public interface IStudentService {
         public Task<Student[]> GetStudentsByGroupAsync(StudentGroupFilter filter, CancellationToken cancellationToken);
+        Task AddStudentAsync(string firstName, string lastName, int groupId, CancellationToken ct);
+        Task UpdateStudentAsync(int studentId, string newFirstName, string newLastName, int newGroupId, CancellationToken ct);
+        Task DeleteStudentAsync(int studentId, CancellationToken ct);
     }
     public class StudentService : IStudentService
     {
@@ -50,6 +55,42 @@ namespace WebApplication1.Interfaces.StudentsInterfaces
                 .ToArrayAsync(cancellationToken);
 
             return students;
+        }
+
+        public async Task AddStudentAsync(string firstName, string lastName, int groupId, CancellationToken ct)
+        {
+            var student = new Student
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                GroupId = groupId,
+            };
+
+            await _dbContext.Set<Student>().AddAsync(student, ct);
+            await _dbContext.SaveChangesAsync(ct);
+        }
+
+        public async Task UpdateStudentAsync(int studentId, string firstName, string lastName, int groupId, CancellationToken ct)
+        {
+            var student = await _dbContext.Set<Student>().FindAsync(new object[] { studentId }, ct);
+            if (student != null)
+            {
+                student.FirstName = firstName;
+                student.LastName = lastName;
+                student.GroupId = groupId;
+
+                await _dbContext.SaveChangesAsync(ct);
+            }
+        }
+
+        public async Task DeleteStudentAsync(int studentId, CancellationToken ct)
+        {
+            var student = await _dbContext.Set<Student>().FindAsync(new object[] { studentId }, ct);
+            if (student != null)
+            {
+                student.IsDeleted = true;
+                await _dbContext.SaveChangesAsync(ct);
+            }
         }
     }
 }

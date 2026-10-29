@@ -11,7 +11,7 @@ namespace WebApplication1.Models
         public int SpecialnostId { get; set; }
         public Specialnost Specialnost { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         [JsonIgnore]
         public ICollection<Student> Students { get; set; } = new List<Student>();

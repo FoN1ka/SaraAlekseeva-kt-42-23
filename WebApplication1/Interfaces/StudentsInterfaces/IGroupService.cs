@@ -8,6 +8,9 @@ namespace WebApplication1.Interfaces.StudentsInterfaces
     public interface IGroupService
     {
         public Task<Group[]> GetGroupBySpecialnostAsync(GroupFilter filter, CancellationToken cancellationToken);
+        Task AddGroupAsync(string name, int course, int specialnostId, CancellationToken ct);
+        Task UpdateGroupAsync(int groupId, string newName, int newCourse, int newSpecialnostId, CancellationToken ct);
+        Task DeleteGroupAsync(int groupId, CancellationToken ct); // Каскадное удаление
     }
 
     public class GroupService : IGroupService
@@ -53,6 +56,49 @@ namespace WebApplication1.Interfaces.StudentsInterfaces
                 .ToArrayAsync(cancellationToken);
 
             return groups;
+        }
+
+        public async Task AddGroupAsync(string name, int course, int specialnostId, CancellationToken ct)
+        {
+            var group = new Group
+            {
+                Name = name,
+                Course = course,
+                SpecialnostId = specialnostId,
+            };
+
+            await _dbContext.Set<Group>().AddAsync(group, ct);
+            await _dbContext.SaveChangesAsync(ct);
+        }
+
+        public async Task UpdateGroupAsync(int groupId, string newName, int newCourse, int newSpecialnostId, CancellationToken ct)
+        {
+            var group = await _dbContext.Set<Group>().FindAsync(new object[] { groupId }, ct);
+            if (group != null)
+            {
+                group.Name = newName;
+                group.Course = newCourse;
+                group.SpecialnostId = newSpecialnostId;
+
+                await _dbContext.SaveChangesAsync(ct);
+            }
+        }
+
+        public async Task DeleteGroupAsync(int groupId, CancellationToken ct)
+        {
+            var group = await _dbContext.Set<Group>().FindAsync(new object[] { groupId }, ct);
+            if (group == null) return;
+
+            group.IsDeleted = true; // Мягкое удаление группы
+
+            // Каскадное удаление студентов
+            var students = await _dbContext.Set<Student>().Where(s => s.GroupId == groupId).ToListAsync(ct);
+            foreach (var student in students)
+            {
+                student.IsDeleted = true;
+            }
+
+            await _dbContext.SaveChangesAsync(ct);
         }
     }
 }

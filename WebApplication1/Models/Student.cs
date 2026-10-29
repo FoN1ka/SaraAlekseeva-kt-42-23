@@ -9,7 +9,7 @@ namespace WebApplication1.Models
         public string LastName { get; set; }
         public int GroupId { get; set; }
         public Group Group { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         [JsonIgnore]
         public ICollection<Grade> Grades { get; set; } = new List<Grade>();

@@ -8,7 +8,7 @@ namespace WebApplication1.Models
         public string Name { get; set; }
 
         public string Direction { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
         [JsonIgnore]
         public ICollection<Grade> Grades { get; set; } = new List<Grade>();
 
