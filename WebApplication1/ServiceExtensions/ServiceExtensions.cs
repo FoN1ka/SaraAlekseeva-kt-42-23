@@ -9,6 +9,7 @@ namespace WebApplication1.ServiceExtentions
             services.AddScoped<IStudentService , StudentService>();
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<IDisciplineService, DisciplineService>();
+            services.AddScoped<IGradeService, GradeService>();
             return services;
         }
     }
