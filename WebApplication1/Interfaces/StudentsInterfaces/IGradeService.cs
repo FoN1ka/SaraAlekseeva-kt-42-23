@@ -12,8 +12,8 @@ namespace WebApplication1.Interfaces.StudentsInterfaces
         Task<double> GetAverageGradeForYearAsync(int course, CancellationToken ct);
 
         //Добавление и изменение оценок
-        Task AddGradeAsync(Grade grade, CancellationToken ct);
-        Task UpdateGradeAsync(Grade grade, CancellationToken ct);
+        Task AddGradeAsync(int gradeValue, int studentId, int disciplineId, CancellationToken ct);
+        Task UpdateGradeAsync(int gradeId, int newValue, CancellationToken ct);
     }
 
     public class GradeService : IGradeService
@@ -59,16 +59,27 @@ namespace WebApplication1.Interfaces.StudentsInterfaces
             return grades.Any() ? grades.Average() : 0;
         }
 
-        public async Task AddGradeAsync(Grade grade, CancellationToken ct)
+        public async Task AddGradeAsync(int gradeValue, int studentId, int disciplineId, CancellationToken ct)
         {
+            var grade = new Grade
+            {
+                Value = gradeValue,
+                StudentId = studentId,
+                DisciplineId = disciplineId,
+            };
+
             await _dbContext.Set<Grade>().AddAsync(grade, ct);
             await _dbContext.SaveChangesAsync(ct);
         }
 
-        public async Task UpdateGradeAsync(Grade grade, CancellationToken ct)
+        public async Task UpdateGradeAsync(int gradeId, int newValue, CancellationToken ct)
         {
-            _dbContext.Set<Grade>().Update(grade);
-            await _dbContext.SaveChangesAsync(ct);
+            var grade = await _dbContext.Set<Grade>().FindAsync(new object[] { gradeId }, ct);
+            if (grade != null)
+            {
+                grade.Value = newValue;
+                await _dbContext.SaveChangesAsync(ct);
+            }
         }
     }
 }
