@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 
 namespace WebApplication1.Models
 {
@@ -15,5 +16,11 @@ namespace WebApplication1.Models
 
         [JsonIgnore]
         public ICollection<Student> Students { get; set; } = new List<Student>();
+
+
+        public bool isValidGroupName()
+        {
+            return Regex.Match(Name, @"^[A-ZА-Я]{2}-\d{2}-\d{2}$").Success;
+        }
     }
 }
