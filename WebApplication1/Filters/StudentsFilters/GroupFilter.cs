@@ -1,6 +1,6 @@
 ﻿namespace WebApplication1.Filters.StudentsFilters
 {
-    public class GroupDisciplineFilter
+    public class GroupFilter
     {
         public string? SpecialnostName { get; set; }
         public int? Course { get; set; }

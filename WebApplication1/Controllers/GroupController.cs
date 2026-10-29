@@ -17,8 +17,8 @@ namespace WebApplication1.Controllers
             _groupService = groupService;
         }
 
-        [HttpPost(Name = "GetStudentByGroup")]
-        public async Task<IActionResult> GetStudentsByGroupAsync(StudentGroupFilter filter, CancellationToken cancellationToken = default)
+        [HttpPost(Name = "GetGroupBySpecialnost")]
+        public async Task<IActionResult> GetStudentsByGroupAsync(GroupFilter filter, CancellationToken cancellationToken = default)
         {
             var groups = await _groupService.GetGroupBySpecialnostAsync(filter, cancellationToken);
 
