@@ -10,6 +10,9 @@ namespace WebApplication1.Models
         public int Course {  get; set; }
         public int SpecialnostId { get; set; }
         public Specialnost Specialnost { get; set; }
+
+        public bool IsDeleted { get; set; }
+
         [JsonIgnore]
         public ICollection<Student> Students { get; set; } = new List<Student>();
     }

@@ -6,6 +6,8 @@ namespace WebApplication1.Models
     {
         public int DisciplineId { get; set; }
         public string Name { get; set; }
+
+        public string Direction { get; set; }
         public bool IsDeleted { get; set; }
         [JsonIgnore]
         public ICollection<Grade> Grades { get; set; } = new List<Grade>();

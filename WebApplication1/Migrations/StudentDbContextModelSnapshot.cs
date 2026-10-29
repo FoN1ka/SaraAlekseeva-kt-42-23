@@ -31,6 +31,13 @@ namespace WebApplication1.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisciplineId"));
 
+                    b.Property<string>("Direction")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar")
+                        .HasColumnName("c_discipline_direction")
+                        .HasComment("название дисциплины");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -43,7 +50,7 @@ namespace WebApplication1.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar")
                         .HasColumnName("c_discipline_name")
-                        .HasComment("название дисциплины");
+                        .HasComment("направление дисциплины");
 
                     b.HasKey("DisciplineId")
                         .HasName("pk_cd_discipline_discipline_id");
@@ -99,6 +106,13 @@ namespace WebApplication1.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("c_group_course")
                         .HasComment("Курс обучения");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("c_group_is_deleted")
+                        .HasComment("Признак удаления Группы");
 
                     b.Property<string>("Name")
                         .IsRequired()

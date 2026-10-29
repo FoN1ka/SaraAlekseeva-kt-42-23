@@ -25,11 +25,18 @@ namespace WebApplication1.DataBase.Configurations
                 .HasComment("Идентификатор записи Дисциплины");
 
             //HasComment
+            builder.Property(p => p.Direction)
+                .IsRequired()
+                .HasColumnName("c_discipline_direction")
+                .HasColumnType(ColumnType.String).HasMaxLength(100)
+                .HasComment("название дисциплины");
+
+            //HasComment
             builder.Property(p => p.Name)
                 .IsRequired()
                 .HasColumnName("c_discipline_name")
                 .HasColumnType(ColumnType.String).HasMaxLength(100)
-                .HasComment("название дисциплины");
+                .HasComment("направление дисциплины");
 
             builder.ToTable(TableName);
 

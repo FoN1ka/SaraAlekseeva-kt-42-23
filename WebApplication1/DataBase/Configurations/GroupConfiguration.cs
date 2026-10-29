@@ -48,6 +48,13 @@ namespace WebApplication1.DataBase.Configurations
             // Индекс по внешнему ключу
             builder.ToTable(TableName).HasIndex(p => p.SpecialnostId, $"idk_{TableName}_fk_specialnost_id");
 
+            // Флаг удаления
+            builder.Property(p => p.IsDeleted)
+                .IsRequired()
+                .HasColumnName("c_group_is_deleted")
+                .HasDefaultValue(false)
+                .HasComment("Признак удаления Группы");
+
             // Автоподгрузка навигации
             builder.Navigation(p => p.Specialnost)
                 .AutoInclude();
